@@ -4,8 +4,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useFavoriteWeatherStore } from "../store";
-import { CITY_LIST, formatTime } from "../utils";
+import { useFavoriteWeatherStore, useWeatherSettingsStore } from "../store";
+import {
+  CITY_LIST,
+  convertTemperature,
+  formatTime,
+  WEATHER_UNITS,
+} from "../utils";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -44,8 +49,14 @@ export const weatherListColumns = [
     id: crypto.randomUUID(),
     header: "🌡 Temperature",
     cell: ({ row }) => {
+      const { unit } = useWeatherSettingsStore();
       const { temperature_2m } = row.original.current;
-      return <span className="block text-center">{temperature_2m}°C</span>;
+      return (
+        <span className="block text-center">
+          {convertTemperature(temperature_2m, unit)}
+          {unit === WEATHER_UNITS.celcius ? "°C" : "°F"}
+        </span>
+      );
     },
     size: 100,
   },
@@ -104,10 +115,15 @@ export const weatherListColumns = [
     id: crypto.randomUUID(),
     header: "📉 Min Temp",
     cell: ({ row }) => {
+      const { unit } = useWeatherSettingsStore();
       const { temperature_2m_min } = row.original.daily;
       return (
         <span className="block text-center">
-          {temperature_2m_min.length ? `${temperature_2m_min[0]}°C` : "NA"}
+          {temperature_2m_min.length
+            ? `${convertTemperature(temperature_2m_min[0], unit)} ${
+                unit === WEATHER_UNITS.celcius ? "°C" : "°F"
+              }`
+            : "NA"}
         </span>
       );
     },
@@ -119,10 +135,15 @@ export const weatherListColumns = [
     id: crypto.randomUUID(),
     header: "📈 Max Temp",
     cell: ({ row }) => {
+      const { unit } = useWeatherSettingsStore();
       const { temperature_2m_max } = row.original.daily;
       return (
         <span className="block text-center">
-          {temperature_2m_max.length ? `${temperature_2m_max[0]}°C` : "NA"}
+          {temperature_2m_max.length
+            ? `${convertTemperature(temperature_2m_max[0], unit)} ${
+                unit === WEATHER_UNITS.celcius ? "°C" : "°F"
+              }`
+            : "NA"}
         </span>
       );
     },
