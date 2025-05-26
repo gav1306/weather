@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { HistoricalBarChart, HistoricalLineChart } from "../charts";
 import { useWeatherChartStore } from "../store";
+import { WeatherSettingsDialog } from ".";
 
 export function WeatherChartTabs() {
   const { setPastDays, filter } = useWeatherChartStore();
@@ -18,6 +19,7 @@ export function WeatherChartTabs() {
           <TabsTrigger value="line">Lines</TabsTrigger>
           <TabsTrigger value="bar">Bars</TabsTrigger>
         </TabsList>
+        <WeatherSettingsDialog />
       </div>
       <TabsContent value="line">
         <HistoricalLineChart />
