@@ -1,7 +1,12 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { CITY_LIST, formatTime } from "../utils";
+import {
+  CITY_LIST,
+  convertTemperature,
+  formatTime,
+  WEATHER_UNITS,
+} from "../utils";
 import { useSuspenseGetWeatherDetails } from "../services";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -16,10 +21,11 @@ import {
   Wind,
 } from "lucide-react";
 import { WeatherChartTabs } from ".";
+import { useWeatherSettingsStore } from "../store";
 
 export const WeatherChartDetails = () => {
   const { id: cityKey } = useParams();
-
+  const { unit } = useWeatherSettingsStore();
   const { latitude, longitude, name } = CITY_LIST[cityKey];
   const { data } = useSuspenseGetWeatherDetails({ latitude, longitude });
   const { temperature_2m, wind_speed_10m, relative_humidity_2m, uv_index } =
@@ -41,7 +47,8 @@ export const WeatherChartDetails = () => {
           <li className="flex items-center gap-4">
             <ThermometerSun className="w-[20px] md:w-[40px]" />
             <span className="text-2xl sm:text-3xl font-thin">
-              {temperature_2m}°C
+              {convertTemperature(temperature_2m, unit)}{" "}
+              {unit === WEATHER_UNITS.celcius ? "°C" : "°F"}
             </span>
           </li>
           {!!sunrise.length && (
