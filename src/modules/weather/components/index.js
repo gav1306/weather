@@ -7,3 +7,4 @@ export * from "./empty";
 export * from "./details";
 export * from "./chart-tabs";
 export * from "./weather-card";
+export * from "./settings-dialog";
