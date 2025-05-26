@@ -6,11 +6,18 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Droplet, MapPin, Star, SunDim, Wind } from "lucide-react";
-import { CITY_LIST, formatTime, WEATHER_TYPES } from "../utils";
-import { useFavoriteWeatherStore } from "../store";
+import {
+  CITY_LIST,
+  convertTemperature,
+  formatTime,
+  WEATHER_TYPES,
+  WEATHER_UNITS,
+} from "../utils";
+import { useFavoriteWeatherStore, useWeatherSettingsStore } from "../store";
 
 export function WeatherCard({ cityWeather }) {
   const { removeFromFavorites } = useFavoriteWeatherStore();
+  const { unit } = useWeatherSettingsStore();
   const {
     temperature_2m,
     wind_speed_10m,
@@ -57,8 +64,10 @@ export function WeatherCard({ cityWeather }) {
           />
         )}
         <h3 className="relative text-4xl font-bold text-center">
-          {temperature_2m}
-          <span className="absolute top-[-4px] right-[-24px] text-4xl">°</span>
+          {convertTemperature(temperature_2m, unit)}
+          <span className="absolute right-[-44px] text-4xl super-script">
+            {unit === WEATHER_UNITS.celcius ? "°C" : "°F"}
+          </span>
         </h3>
         <h4 className="flex items-center gap-1">
           <MapPin size={16} /> <span>{name}</span>
