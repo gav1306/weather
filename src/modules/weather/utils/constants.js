@@ -6,6 +6,11 @@ import heavyDrizzleAnimation from "@/assets/animations/heavy-drizzle.json";
 import thunderCloudAnimation from "@/assets/animations/thunder-cloud.json";
 import snowCloudAnimation from "@/assets/animations/snow-cloud.json";
 
+export const WEATHER_UNITS = {
+  celcius: "celcius",
+  fahrenheit: "fahrenheit",
+};
+
 export const DEFAULT_WEATHER_PARAMS = {
   current:
     "temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m,visibility,uv_index,precipitation",
